@@ -1,31 +1,25 @@
 pipeline {
-  agent any
-  stages {
-    stage('clone') {
-      steps {
-        parallel(
-          "clone": {
-            script {
-              git 'https://github.com/LuckySkynet/jenkins-test.git'
+    agent any
+
+    stages {
+        stage('clone') {
+            steps {
+                git 'https://github.com/LuckySkynet/jenkins-test.git'
             }
-            
-            
-          },
-          "test": {
-            sh 'sh \'mvn clean test\''
-            
-          },
-          "build": {
-            sh 'sh \'mvn -Dmaven.test.skip=true package\''
-            
-          }
-        )
-      }
+        }
+        stage('test'){
+            steps {
+                sh 'sh \'mvn clean test\''
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'sh \'mvn -Dmaven.test.skip=true package\''
+            }
+        }
+        stage('deploy') {
+               sh 'sh \'java -jar target\\jenkins-demo-1.0-SNAPSHOT.jar\''
+               echo 'pipeline success'
+        }
     }
-    stage('deploy') {
-      steps {
-        sh 'sh \'java -jar target\\jenkins-demo-1.0-SNAPSHOT.jar\''
-      }
-    }
-  }
 }
