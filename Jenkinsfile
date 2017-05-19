@@ -9,17 +9,17 @@ pipeline {
         }
         stage('test'){
             steps {
-                sh 'sh \'mvn clean test\''
+                sh 'mvn clean test'
             }
         }
         stage('build') {
             steps {
-                sh 'sh \'mvn -Dmaven.test.skip=true package\''
+                sh 'mvn -Dmaven.test.skip=true package'
             }
         }
         stage('deploy') {
-               sh 'sh \'java -jar target\\jenkins-demo-1.0-SNAPSHOT.jar\''
-               echo 'pipeline success'
+                sh 'java -jar target\\jenkins-demo-1.0-SNAPSHOT.jar'
+                echo 'pipeline success'
         }
     }
 }
